@@ -101,8 +101,24 @@ public class Practice {
    * @return a sorted list of all reachable vertex values
    */
   public static List<Integer> sortedReachable(Map<Integer, Set<Integer>> graph, int starting) {
-    return null;
+    if (!graph.containsKey(starting)) return new ArrayList<>();
+    Set<Integer> visited = new HashSet<>();
+    List<Integer> reachableValues = new ArrayList<>();
+    sortedReachableHelper(starting, graph, visited, reachableValues);
+    Collections.sort(reachableValues);
+    return reachableValues;
+}
+
+  public static void sortedReachableHelper(int current, Map<Integer, Set<Integer>> graph, Set<Integer> visited, List<Integer> reachableValues) {
+    if (visited.contains(current)) return;
+    visited.add(current);
+    reachableValues.add(current);
+
+    // Recurse
+    for (int neighbor : graph.getOrDefault(current, new HashSet<>())) {
+      sortedReachableHelper(neighbor, graph, visited, reachableValues);
   }
+}
 
   /**
    * Returns true if and only if it is possible both to reach v2 from v1 and to reach v1 from v2.
