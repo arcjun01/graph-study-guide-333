@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -68,8 +70,24 @@ public class Practice {
    * @return a sorted list of all reachable vertex values by 
    */
   public static List<Integer> sortedReachable(Vertex<Integer> starting) {
-    // Unimplemented: perform a depth-first search and sort the collected values.
-    return null;
+    if (starting == null) return new ArrayList<>(); 
+    Set<Vertex<Integer>> visited = new HashSet<>();
+    List<Integer> reachableValues = new ArrayList<>();
+    sortedReachableHelper(starting, visited, reachableValues);
+    // Sort the values
+    Collections.sort(reachableValues); 
+    return reachableValues;
+}
+
+  public static void sortedReachableHelper(Vertex<Integer> vertex, Set<Vertex<Integer>> visited, List<Integer> reachableValues) {
+    if (visited.contains(vertex)) return;
+    visited.add(vertex);
+    reachableValues.add(vertex.data);
+
+    // Recurse
+    for (Vertex<Integer> neighbor : vertex.neighbors) {
+      sortedReachableHelper(neighbor, visited, reachableValues);
+    }
   }
 
   /**
